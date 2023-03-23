@@ -70,8 +70,5 @@ jobs:
     - name: SonarQube Scan
       run: |
         reportgenerator "-reports:coverage/**/coverage.cobertura.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
-        ls -R
-        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=sonarqubecoverage/*.xml            
-        dotnet build
-        dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage        
+        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=sonarqubecoverage/SonarQube.xml                         
         dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"      
