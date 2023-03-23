@@ -74,12 +74,13 @@ jobs:
         
     - name: SonarQube Scan
       run: |
+        ls -R
         dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" 
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
             /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
             /d:sonar.cs.opencover.reportsPaths=coverage.xml
         dotnet build --no-incremental
-        coverlet .\CovExample.Tests\bin\Debug\net6.0\CovExample.Tests.dll
+        coverlet **\**\bin\Debug\net6.0\Numbers.Tests.dll
             --target "dotnet" 
             --targetargs "test --no-build"
             -f=opencover 
