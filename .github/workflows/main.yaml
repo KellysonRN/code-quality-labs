@@ -77,10 +77,9 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
-        projectBaseDir: ./src
         args: >
           -Dsonar.organization=kellysonrn
-          -Dsonar.coverage.jacoco.xmlReportPaths=./src/coverage.xml
+          -Dsonar.coverage.jacoco.xmlReportPaths=./coverage.xml
           -Dsonar.projectKey=KellysonRN_code-quality-labs
           -Dsonar.projectBaseDir=.
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} 
