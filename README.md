@@ -1,5 +1,7 @@
 # Code Quality Labs
 
+![Build](https://github.com/kellysonrn/code-quality-labs/actions/workflows/main.yaml/badge.svg)
+
 ## Overview
 
 Learn Time: Experiments with [Coverlet](https://github.com/coverlet-coverage/coverlet) to generate code coverage reports.
