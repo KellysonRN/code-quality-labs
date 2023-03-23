@@ -77,9 +77,9 @@ jobs:
       with:
         projectBaseDir: src
         args: >
-          -Dsonar.organization=${{github.repository_owner}}
+          -Dsonar.organization=kellysonrn
           -Dsonar.coverage.jacoco.xmlReportPaths=./src/coverage.xml
-          -Dsonar.projectKey=${{ github.repository }}
+          -Dsonar.projectKey=KellysonRN_code-quality-labs
           -Dsonar.projectBaseDir=.
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} 
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}  
