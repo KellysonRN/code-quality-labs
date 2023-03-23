@@ -1,0 +1,35 @@
+name: CI Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/src/**'
+      - '**/tests/**'      
+      - '**/.github/**'
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+    
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+          fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore src
+
+    - name: Build
+      run: dotnet build src --configuration Release --no-restore   
