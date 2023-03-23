@@ -1,4 +1,4 @@
-# Template DotNet Labs
+# Code Quality Labs
 
 ## Overview
 
