@@ -31,8 +31,8 @@ jobs:
         
     - name: Setup DotNet Coverage
       run: |        
-        dotnet tool install --global dotnet-sonarscanner --version 5.2.0
-        dotnet tool update dotnet-reportgenerator-globaltool -g --version 4.8.7
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool update dotnet-reportgenerator-globaltool -g
 
     - name: Restore Dependencies
       run: dotnet restore
