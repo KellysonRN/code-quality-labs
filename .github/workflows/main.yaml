@@ -27,7 +27,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.x        
+    
+    - name: Setup Dotnet Coverage
+      run: dotnet tool install --global dotnet-coverage  
 
     - name: Restore Dependencies
       run: dotnet restore
@@ -63,8 +66,7 @@ jobs:
       run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
     
     - name: DotNet Coverage
-      run: |
-        dotnet tool install --global dotnet-coverage  
+      run: |        
         dotnet build src --no-incremental
         cd src
         dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'            
