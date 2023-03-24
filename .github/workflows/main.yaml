@@ -28,6 +28,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+        
+    - name: Setup DotNet Coverage
+      run: |        
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool update dotnet-reportgenerator-globaltool -g
 
     - name: Restore Dependencies
       run: dotnet restore
@@ -61,26 +66,10 @@ jobs:
         
     - name: Write to Job Summary
       run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-    
-    - name: DotNet Coverage
-      run: |
-        dotnet tool install --global dotnet-coverage  
-        dotnet build src --no-incremental
-        cd src
-        dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'            
-      
+        
     - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      with:
-        projectBaseDir: src
-        args: >
-          -Dsonar.organization=kellysonrn
-          -Dsonar.coverage.jacoco.xmlReportPaths=./src/coverage.xml
-          -Dsonar.projectKey=KellysonRN_code-quality-labs
-          -Dsonar.projectBaseDir=.
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} 
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}  
-       
+      run: |
+        dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover        
+        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=**/**/coverage.opencover.xml 
+        dotnet build --no-incremental        
+        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"      

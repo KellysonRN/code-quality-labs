@@ -16,6 +16,7 @@ public class PrimeService
                 return false;
             }
         }
+
         return true;
     }
 }
