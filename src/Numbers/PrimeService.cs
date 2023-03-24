@@ -16,6 +16,12 @@ public class PrimeService
                 return false;
             }
         }
+        
         return true;
+    }
+    
+    private bool HasContent(IEnumerable<string> strings)
+    {
+      return strings.Count() > 0;
     }
 }
