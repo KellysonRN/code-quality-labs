@@ -70,6 +70,6 @@ jobs:
     - name: SonarQube Scan
       run: |
         reportgenerator "-reports:coverage/**/coverage.cobertura.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
-        cat sonarqubecoverage/SonarQube.xml   
+        cat coverage/**/coverage.cobertura.xml   
         dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=sonarqubecoverage/SonarQube.xml                         
         dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"      
