@@ -48,16 +48,6 @@ jobs:
       uses: microsoft/PR-Metrics@v1.5.0
       env:
         PR_METRICS_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        base-size: 200
-        growth-rate: 2.0
-        test-factor: 1.0
-        file-matching-patterns: |
-          **/*
-          !Ignore.cs
-        code-file-extensions: |
-          cs
-          ps1
       continue-on-error: true
 
 
