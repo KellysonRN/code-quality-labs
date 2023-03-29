@@ -43,48 +43,23 @@ jobs:
     - name: Test
       run: |
         dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage              
-   
-    - name: Code Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      
+    - name: PR Metrics
+      uses: microsoft/PR-Metrics@v1.5.0
+      env:
+        PR_METRICS_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        filename: coverage/**/coverage.cobertura.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_branch_rate: false
-        hide_complexity: true
-        indicators: true
-        output: both
-        thresholds: '60 80'
+        base-size: 200
+        growth-rate: 2.0
+        test-factor: 1.0
+        file-matching-patterns: |
+          **/*
+          !Ignore.cs
+        code-file-extensions: |
+          cs
+          ps1
+      continue-on-error: true
 
-    - name: Add Coverage PR Comment
-      uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
-      with:
-        recreate: true
-        path: code-coverage-results.md
-        
-    - name: Write to Job Summary
-      run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-        
-    - name: SonarQube Scan
-      run: |
-        dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover        
-        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=**/**/coverage.opencover.xml 
-        dotnet build --no-incremental        
-        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        
-    - name: Create Test Coverage Badge
-      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-      id: create_coverage_badge
-      with:
-        label: Unit Test Coverage
-        color: brightgreen
-        path: ./tests/Numbers.Tests/coverage.opencover.xml
-        gist-filename: code-coverage.json
-        gist-id: fed13a1a020191c0cd65c7396adad4e2
-        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
-        
-        
+
         
 
