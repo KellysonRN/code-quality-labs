@@ -69,12 +69,12 @@ jobs:
     - name: Write to Job Summary
       run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
         
-    - name: SonarQube Scan
-      run: |
-        dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover        
-        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=**/**/coverage.opencover.xml 
-        dotnet build --no-incremental        
-        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+    # - name: SonarQube Scan
+    #   run: |
+    #     dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover        
+    #     dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=**/**/coverage.opencover.xml 
+    #     dotnet build --no-incremental        
+    #     dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
