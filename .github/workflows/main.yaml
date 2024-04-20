@@ -40,12 +40,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore      
    
-    - name: Test
+    - name: Coverage Summary
       run: |
-        dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
-        dotnet tool update --global dotnet-coverage
-        dotnet-coverage merge --output test-result.cobertura.xml --output-format cobertura "test-results/**/*.coverage"    
-        reportgenerator -reports:test-result.cobertura.xml -targetdir:coverage-report -reporttypes:"MarkdownSummaryGithub"
+        dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage;Format=cobertura" --results-directory ./coverage
+        reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:"MarkdownSummaryGithub"
         cat coverage-report/SummaryGithub.md >> $GITHUB_STEP_SUMMARY             
    
     - name: Code Coverage Report
@@ -74,10 +72,7 @@ jobs:
     - name: SonarQube Scan
       run: |
         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover        
-        dotnet sonarscanner begin /k:"KellysonRN_code-quality-labs" /o:"kellysonrn" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths=**/**/coverage.opencover.xml 
-        dotnet build --no-incremental        
-        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        
+            
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
