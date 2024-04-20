@@ -1,6 +1,7 @@
 # Code Quality Labs
 
 ![Build](https://github.com/kellysonrn/code-quality-labs/actions/workflows/main.yaml/badge.svg)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/kellysonrn/fed13a1a020191c0cd65c7396adad4e2/raw/code-coverage.json)
 
 ## Overview
 
