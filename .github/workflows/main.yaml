@@ -40,12 +40,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore      
    
-    - name: Test
+    - name: Coverage Summary
       run: |
-        dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
-        dotnet tool update --global dotnet-coverage
-        dotnet-coverage merge --output test-result.cobertura.xml --output-format cobertura "test-results/**/*.coverage"    
-        reportgenerator -reports:test-result.cobertura.xml -targetdir:coverage-report -reporttypes:"MarkdownSummaryGithub"
+        dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage;Format=cobertura" --results-directory ./coverage
+        reportgenerator -reports:coverage/**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:"MarkdownSummaryGithub"
         cat coverage-report/SummaryGithub.md >> $GITHUB_STEP_SUMMARY             
    
     - name: Code Coverage Report
